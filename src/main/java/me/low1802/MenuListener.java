@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryType;
 
 import java.util.Map;
 import java.util.Objects;
@@ -39,5 +41,19 @@ public class MenuListener implements Listener {
 
         boolean cancel = button.onClick(player, clickType);
         event.setCancelled(cancel);
+    }
+
+    @EventHandler
+    public void handleExit(InventoryCloseEvent event) {
+         Player player = (Player) event.getPlayer();
+
+         if(!event.getInventory().getType().equals(InventoryType.CHEST)) return;
+
+         if(!handler.isInMenu(player.getUniqueId())) return;
+
+         Menu menu = handler.getMenu(player);
+         menu.onClose(player);
+
+         handler.unRegisterPlayer(player);
     }
 }

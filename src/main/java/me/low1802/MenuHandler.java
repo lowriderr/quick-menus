@@ -28,6 +28,10 @@ public class MenuHandler {
         this.menus.put(player.getUniqueId(), menu);
     }
 
+    public void unRegisterPlayer(Player player) {
+        this.menus.remove(player.getUniqueId());
+    }
+
     public boolean isInMenu(UUID uuid) {
         return menus.containsKey(uuid);
     }
